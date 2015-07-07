@@ -12,7 +12,7 @@ A Sonatype Nexus quick & dirty performance regression and stress test library.
 
 ### Building
 
-mvn clean install
+    mvn clean install
 
 This creates an uber jar in target which contains all the needed dependencies.
 
@@ -42,9 +42,12 @@ You can only tell this library:
 Scenarios are defined using xml files in the scenarios directory. Use existing scenarios as an example or review
 the code.
 
+Scenarios are hard-coded to target specific repositories. You may need to configure your test instance of Nexus
+appropiately for your chosen scenario.
+
 ### Adding Scenario Data
 
-CSV and standard NCSA log files ( tar/gzipped ) can be parsed to simulate actual requests.
+Data files are parsed to produce a stream of URLs that are then consumed by the scenario. CSV and standard NCSA log files (tar/gzipped) can be parsed to simulate actual requests.
 
 ### Configuring your Nexus Under Test
 
@@ -66,4 +69,8 @@ To run test scenario, compare performance to an earlier scenario run,
 do not record metrics in the db. Useful to test scenario itself
 
     ./runtest.sh sample-scenario - 2.4.0-09
+
+#### Nexus 2 vs. Nexus 3
+
+The NEXUS_LAYOUT variable within runtest.sh should be set to 'NX2' when running perf tests against NX2.
 

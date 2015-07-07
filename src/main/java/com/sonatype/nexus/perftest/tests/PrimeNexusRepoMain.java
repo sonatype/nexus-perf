@@ -38,7 +38,8 @@ public class PrimeNexusRepoMain {
     }
 
 
-    final DownloadOperation download = new DownloadOperation(nexus, "public", paths);
+    final DownloadOperation download = new DownloadOperation(nexus, "rso-private-grid", paths);
+    //final DownloadOperation download = new DownloadOperation(nexus, "maven-public", paths);
     final RequestRate downloadRate = new RequestRate(5, TimeUnit.SECONDS);
     final ClientSwarm downloaders = new ClientSwarm("download", download, downloadRate, DOWNLOAD_TCOUNT);
     final Metric downloadMetric = downloaders.getMetric();

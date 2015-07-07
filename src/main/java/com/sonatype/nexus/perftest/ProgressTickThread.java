@@ -39,7 +39,7 @@ public class ProgressTickThread extends Thread {
     for (Metric metric : metrics) {
       int successes = metric.getSuccesses();
       long duration = successes > 0 ? metric.getSuccessDuration() / successes : 0;
-      System.out.format(" %s=%d/%d(~%d)/%d", metric.getName(), metric.getOutstanding(), successes, duration,
+      System.out.format(" %s=%d outstanding/%d succ.(~%d msec)/%d fail", metric.getName(), metric.getOutstanding(), successes, duration,
           metric.getFailures());
     }
     System.out.println();

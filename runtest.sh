@@ -11,7 +11,9 @@ scenario=$1
 buildid=$2
 baselineid=$3
 
-NEXUS_URL=http://localhost:8081/nexus
+NEXUS_URL=http://localhost:8081/
+NEXUS_LAYOUT=NX3
+
 NEXUS_USERNAME=admin
 NEXUS_PASSWORD=admin123
 
@@ -23,7 +25,7 @@ NEXUS_PASSWORD=admin123
 #         asserted to be within tolerance range compared to the baseline.
 
 
-extra_vmargs=
+extra_vmargs=-Dpigeon=fly
 
 if [ -n "$buildid" ]; then
     extra_vmargs="$extra_vmargs -Dperftest.buildId=$buildid"
@@ -37,8 +39,10 @@ timestamp=$(date '+%Y%m%d-%H%M%S')
 
 mkdir logs
 
-java -cp target/nexus-perftest-0.0.1-SNAPSHOT-jar-with-dependencies.jar \
-   -Dnexus.baseurl=$NEXUS_URL \
+echo Logging to logs/$scenario-$buildid-$timestamp.log
+
+java -cp target/nexus-perf-0.0.1-SNAPSHOT-jar-with-dependencies.jar \
+   -Dnexus.baseurl=$NEXUS_URL -Dnexus.layout=$NEXUS_LAYOUT \
    -Dnexus.username=$NEXUS_USERNAME -Dnexus.password=$NEXUS_PASSWORD \
    -Dperftest.http.timeout=300000 \
    $extra_vmargs \

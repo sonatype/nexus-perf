@@ -20,11 +20,12 @@ import com.sonatype.nexus.perftest.db.TestExecutions;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class PerformanceTest {
+public class PerformanceTest
+{
 
-  private static final String buildId = System.getProperty("perftest.buildId");
+  private final String buildId = System.getProperty("perftest.buildId");
 
-  private static final String baselineId = System.getProperty("perftest.baselineId");
+  private final String baselineId = System.getProperty("perftest.baselineId");
 
   private final String name;
 
@@ -32,17 +33,20 @@ public class PerformanceTest {
 
   private final Collection<ClientSwarm> swarms;
 
-  public static class Duration {
+  public static class Duration
+  {
     private final long value;
 
     private final TimeUnit unit;
 
+    @SuppressWarnings("unused")
     public Duration(long value, TimeUnit unit) {
       this.value = value;
       this.unit = unit;
     }
 
     @JsonCreator
+    @SuppressWarnings("unused")
     public Duration(String value) {
       StringTokenizer st = new StringTokenizer(value);
       this.value = Long.parseLong(st.nextToken());
@@ -56,7 +60,8 @@ public class PerformanceTest {
 
   @JsonCreator
   public PerformanceTest(@JsonProperty("name") String name, @JsonProperty("duration") Duration duration,
-      @JsonProperty("swarms") Collection<ClientSwarm> swarms) {
+                         @JsonProperty("swarms") Collection<ClientSwarm> swarms)
+  {
     this.name = name;
     this.duration = duration;
     this.swarms = Collections.unmodifiableCollection(new ArrayList<>(swarms));
@@ -107,7 +112,7 @@ public class PerformanceTest {
       execution.addMetric(metric.getName() + ".failureCount", metric.getFailures());
     }
 
-    if (!buildId.equals("-")) {
+    if (!(buildId == null || buildId.equals("-"))) {
       TestExecutions.insert(execution);
     }
 
@@ -116,7 +121,7 @@ public class PerformanceTest {
     }
   }
 
-    public Collection<ClientSwarm> getSwarms() {
-        return Collections.unmodifiableCollection(new ArrayList<>(swarms));
-    }
+  public Collection<ClientSwarm> getSwarms() {
+    return Collections.unmodifiableCollection(new ArrayList<>(swarms));
+  }
 }

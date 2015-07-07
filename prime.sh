@@ -11,7 +11,7 @@ scenario=$1
 buildid=$2
 baselineid=$3
 
-NEXUS_URL=http://localhost:8081/nexus
+NEXUS_URL=http://localhost:8081
 NEXUS_USERNAME=admin
 NEXUS_PASSWORD=admin123
 
@@ -33,8 +33,7 @@ if [ -n "$buildid" ]; then
 fi
 
 java -cp target/nexus-perftest-0.0.1-SNAPSHOT-jar-with-dependencies.jar \
-   -Ddata.file="data/internal-deploy.csv.gz" -Ddata.format=csv
-   -Dnexus.baseurl=$NEXUS_URL \
+   -Ddata.file="data/internal-deploy.csv.gz" -Ddata.format=csv \
    -Dnexus.username=$NEXUS_USERNAME -Dnexus.password=$NEXUS_PASSWORD \
    $extra_vmargs \
    com.sonatype.nexus.perftest.tests.PrimeNexusRepoMain \

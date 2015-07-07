@@ -11,13 +11,8 @@ import java.net.MalformedURLException;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.auth.AuthScope;
-import org.apache.http.auth.UsernamePasswordCredentials;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.HttpConnectionParams;
-import org.apache.http.params.HttpParams;
+import com.sonatype.nexus.perftest.ClientSwarm.ClientRequestInfo;
+
 import org.sonatype.nexus.client.core.NexusClient;
 import org.sonatype.nexus.client.core.spi.SubsystemFactory;
 import org.sonatype.nexus.client.core.spi.subsystem.repository.RepositoryFactory;
@@ -33,10 +28,16 @@ import org.sonatype.nexus.client.rest.jersey.JerseyNexusClient;
 import org.sonatype.nexus.client.rest.jersey.JerseyNexusClientFactory;
 import org.sonatype.nexus.client.rest.jersey.subsystem.JerseyRepositoriesFactory;
 
-import com.sonatype.nexus.perftest.ClientSwarm.ClientRequestInfo;
+import org.apache.http.HttpResponse;
+import org.apache.http.auth.AuthScope;
+import org.apache.http.auth.UsernamePasswordCredentials;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.params.HttpParams;
 
-public abstract class AbstractNexusOperation {
-
+public abstract class AbstractNexusOperation
+{
   public static final int HTTP_TIMEOUT = Integer.parseInt(System.getProperty("perftest.http.timeout", "60000"));
 
   protected final String username;
@@ -87,7 +88,8 @@ public abstract class AbstractNexusOperation {
     BaseUrl baseUrl;
     try {
       baseUrl = BaseUrl.baseUrlFrom(this.nexusBaseurl);
-    } catch (MalformedURLException e) {
+    }
+    catch (MalformedURLException e) {
       throw new RuntimeException(e);
     }
     AuthenticationInfo authenticationInfo = new UsernamePasswordAuthenticationInfo(this.username, this.password);
@@ -106,6 +108,14 @@ public abstract class AbstractNexusOperation {
 
   @SuppressWarnings("unchecked")
   protected String getRepoBaseurl(String repoid) {
-    return getNexusClient(newRepositoryFactories()).getSubsystem(Repositories.class).get(repoid).contentUri();
+    final String layout = System.getProperty("nexus.layout", "NX3");
+    switch (layout) {
+      case "NX2":
+        return getNexusClient(newRepositoryFactories()).getSubsystem(Repositories.class).get(repoid).contentUri();
+      case "NX3":
+        return this.nexusBaseurl + "repository/" + repoid;
+      default:
+        throw new IllegalArgumentException("Unknown -Dnexus.layout: " + layout);
+    }
   }
 }

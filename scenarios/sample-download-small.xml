@@ -8,32 +8,19 @@
 
 -->
 <scenario>
-    <name>sample-download</name>
-    <duration>15 MINUTES</duration>
+    <name>sample-download-small</name>
+    <duration>60 SECONDS</duration>
     <swarms>
         <swarm>
-            <name>download-large</name>
-            <numberOfClients>250</numberOfClients>
-            <rate>5/SECOND</rate>
-            <operation>
-                <class>com.sonatype.nexus.perftest.maven.DownloadOperation</class>
-                <repo>public</repo>
-                <paths>
-                  <class>com.sonatype.nexus.perftest.maven.CsvLogParser</class>
-                  <logfile>data/internal-deploy.csv.gz</logfile>
-                </paths>
-            </operation>
-        </swarm>
-        <swarm>
             <name>download-small</name>
-            <numberOfClients>250</numberOfClients>
+            <numberOfClients>2</numberOfClients>
             <rate>5/SECOND</rate>
             <operation>
                 <class>com.sonatype.nexus.perftest.maven.DownloadOperation</class>
-                <repo>public</repo>
+                <repo>rso-private-grid</repo>
                 <paths>
                   <class>com.sonatype.nexus.perftest.maven.CsvLogParser</class>
-                  <logfile>data/maven-3.3.4-build-artifact-access.csv.gz</logfile>
+                  <logfile>data/internal-deploy-small.csv.gz</logfile>
                 </paths>
             </operation>
         </swarm>

@@ -8,32 +8,32 @@
 
 -->
 <scenario>
-    <name>sample-download</name>
-    <duration>15 MINUTES</duration>
+    <name>sample-maven-nuget</name>
+    <duration>5 MINUTES</duration>
     <swarms>
         <swarm>
-            <name>download-large</name>
-            <numberOfClients>250</numberOfClients>
+            <name>nuget-medium</name>
+            <numberOfClients>25</numberOfClients>
             <rate>5/SECOND</rate>
             <operation>
-                <class>com.sonatype.nexus.perftest.maven.DownloadOperation</class>
-                <repo>public</repo>
+                <class>com.sonatype.nexus.perftest.nuget.NugetDownloadOperation</class>
+                <repo>nuget.org-proxy</repo>
                 <paths>
                   <class>com.sonatype.nexus.perftest.maven.CsvLogParser</class>
-                  <logfile>data/internal-deploy.csv.gz</logfile>
+                  <logfile>data/nuget-initial-and-searches.csv.gz</logfile>
                 </paths>
             </operation>
         </swarm>
         <swarm>
-            <name>download-small</name>
-            <numberOfClients>250</numberOfClients>
+            <name>maven-download-medium</name>
+            <numberOfClients>25</numberOfClients>
             <rate>5/SECOND</rate>
             <operation>
                 <class>com.sonatype.nexus.perftest.maven.DownloadOperation</class>
                 <repo>public</repo>
                 <paths>
-                  <class>com.sonatype.nexus.perftest.maven.CsvLogParser</class>
-                  <logfile>data/maven-3.3.4-build-artifact-access.csv.gz</logfile>
+                    <class>com.sonatype.nexus.perftest.maven.HttpdLogParser</class>
+                    <logfile>data/maven-3.1-build-artifact-access.log.gz</logfile>
                 </paths>
             </operation>
         </swarm>

@@ -60,6 +60,9 @@ public class DownloadAction {
     final HttpResponse response = httpClient.execute(httpGet);
 
     if (!isSuccess(response)) {
+      System.err.println(url);
+      System.err.println(response.getStatusLine());
+
       EntityUtils.consume(response.getEntity());
 
       if (response.getStatusLine().getStatusCode() != 404) {

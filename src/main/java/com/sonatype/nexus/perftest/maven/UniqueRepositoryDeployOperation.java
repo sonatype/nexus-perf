@@ -45,30 +45,32 @@ public class UniqueRepositoryDeployOperation extends AbstractNexusOperation impl
 
   @Override
   public void perform(ClientRequestInfo requestInfo) throws Exception {
-    final String repoId =
-        String.format("%d.%d.%d", requestInfo.getClientId(), requestInfo.getRequestId(), System.currentTimeMillis());
-    final Repositories repositories = getNexusClient(newRepositoryFactories()).getSubsystem(Repositories.class);
-    MavenHostedRepository repository = repositories.create(MavenHostedRepository.class, repoId);
-    if (disableIndexing) {
-      repository.excludeFromSearchResults();
-    }
-    repository.save();
+    // scorched earth, NX 3 doesn't support this
 
-    final ArtifactDeployer deployer = new ArtifactDeployer(getHttpClient(), repository.contentUri());
-    final String groupId = "test.uniquerepodeploy"; // always the same groupId
-    final String version = repoId;
-
-    int artifactNo = 0;
-    for (File file : basedir.listFiles()) {
-      if (file.getName().endsWith(".jar")) {
-        final String artifactId = String.format("artifact-%d", artifactNo++);
-        deployer.deployPom(groupId, artifactId, version, pomTemplate);
-        deployer.deployJar(groupId, artifactId, version, file);
-      }
-    }
-
-    if (deleteRepository) {
-      repository.remove().save();
-    }
+    //final String repoId =
+    //    String.format("%d.%d.%d", requestInfo.getClientId(), requestInfo.getRequestId(), System.currentTimeMillis());
+    //final Repositories repositories = getNexusClient(newRepositoryFactories()).getSubsystem(Repositories.class);
+    //MavenHostedRepository repository = repositories.create(MavenHostedRepository.class, repoId);
+    //if (disableIndexing) {
+    //  repository.excludeFromSearchResults();
+    //}
+    //repository.save();
+    //
+    //final ArtifactDeployer deployer = new ArtifactDeployer(getHttpClient(), repository.contentUri());
+    //final String groupId = "test.uniquerepodeploy"; // always the same groupId
+    //final String version = repoId;
+    //
+    //int artifactNo = 0;
+    //for (File file : basedir.listFiles()) {
+    //  if (file.getName().endsWith(".jar")) {
+    //    final String artifactId = String.format("artifact-%d", artifactNo++);
+    //    deployer.deployPom(groupId, artifactId, version, pomTemplate);
+    //    deployer.deployJar(groupId, artifactId, version, file);
+    //  }
+    //}
+    //
+    //if (deleteRepository) {
+    //  repository.remove().save();
+    //}
   }
 }
