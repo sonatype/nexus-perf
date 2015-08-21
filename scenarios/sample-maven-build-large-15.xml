@@ -8,13 +8,13 @@
 
 -->
 <scenario>
-    <name>sample-maven-build-medium</name>
+    <name>sample-maven-100</name>
     <duration>3 MINUTES</duration>
     <swarms>
         <swarm>
-            <name>maven-build-medium</name>
-            <numberOfClients>25</numberOfClients>
-            <rate>5/SECOND</rate>
+            <name>maven-build-large</name>
+            <numberOfClients>100</numberOfClients>
+            <rate>15/SECOND</rate>
             <operation>
                 <class>com.sonatype.nexus.perftest.maven.DownloadOperation</class>
                 <!--<repo>public</repo>-->

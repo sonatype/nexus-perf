@@ -14,6 +14,9 @@ baselineid=$3
 NEXUS_URL=http://localhost:8081/
 NEXUS_LAYOUT=NX3
 
+#NEXUS_URL=http://localhost:8081/nexus/
+#NEXUS_LAYOUT=NX2
+
 NEXUS_USERNAME=admin
 NEXUS_PASSWORD=admin123
 
